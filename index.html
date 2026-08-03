@@ -250,10 +250,11 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
 
 /* game 3 - chess */
 #chess-board{
-  display:grid;grid-template-columns:repeat(8,1fr);
+  display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);
   width:min(92vw,380px);aspect-ratio:1;margin:0 auto;
   border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:4px solid #fff;
 }
+.sq{min-height:0;min-width:0}
 .sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .sq.light{background:#fff5f7}.sq.dark{background:#f6c9d8}
 .sq.sel{box-shadow:inset 0 0 0 3px var(--pink-hot)}
