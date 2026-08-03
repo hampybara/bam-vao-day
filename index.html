@@ -231,7 +231,7 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
 .bear{position:relative;width:100%;height:100%;filter:drop-shadow(0 4px 6px rgba(180,120,150,.3))}
 .bear svg{width:100%;height:100%;display:block}
 .bear-face{
-  position:absolute;left:17%;top:9.2%;width:56%;aspect-ratio:1;border-radius:50%;
+  position:absolute;left:20%;top:9.2%;width:60%;aspect-ratio:1;border-radius:50%;
   background-size:cover;background-position:center;
 }
 .pop{animation:pop .35s ease forwards}
@@ -595,34 +595,35 @@ photoScreen.addEventListener('touchend', e => {
 /* ══════ GAME 1: catch ══════ */
 /* gấu SVG: đầu để trống, ghép ảnh mặt vào .bear-face */
 function bearHTML(kind, faceUrl){
+  /* kiểu Bubu Dudu: đầu siêu to ở giữa, thân bé, ôm item chính giữa phía trước */
   const c = kind === 'brown'
-    ? {body:'#b98a5f', line:'#8a6041', belly:'#dbb68d', ear:'#e8b48c'}
-    : {body:'#ffffff', line:'#d9bfcb', belly:'#ffeef5', ear:'#f9a8c9'};
+    ? {body:'#c89d76', line:'#a87c54', ear:'#6b4a35', foot:'#c89d76', footLine:'#a87c54'}
+    : {body:'#ffffff', line:'#dcc8ce', ear:'#5a4038', foot:'#5a4038', footLine:'#463129'};
   const item = kind === 'brown'
-    ? '<rect x="46" y="72" width="44" height="8" rx="3" fill="#c98f52" stroke="#a9743a" stroke-width="2"/>'
-    + '<path d="M50 80 L86 80 L81 110 L55 110 Z" fill="#e0aa6b" stroke="#a9743a" stroke-width="2.5" stroke-linejoin="round"/>'
-    + '<path d="M52.5 89 L83.5 89 M54 99 L82 99" stroke="#a9743a" stroke-width="1.5" opacity=".55" fill="none"/>'
-    : '<path d="M68 112 C52 98,46 88,50.5 79 C54 72.5,64 72.5,68 82 C72 72.5,82 72.5,85.5 79 C90 88,84 98,68 112 Z" fill="#f4548f" stroke="#d63d78" stroke-width="2.5" stroke-linejoin="round"/>';
+    ? '<rect x="27" y="82" width="46" height="9" rx="4" fill="#c98f52" stroke="#a9743a" stroke-width="2"/>'
+    + '<path d="M31 91 L69 91 L64 121 L36 121 Z" fill="#e0aa6b" stroke="#a9743a" stroke-width="2.5" stroke-linejoin="round"/>'
+    + '<path d="M33.5 100 L66.5 100 M35 110 L65 110" stroke="#a9743a" stroke-width="1.5" opacity=".55" fill="none"/>'
+    : '<path d="M50 122 C30 106,24 94,29 84 C33 76,45 76,50 86 C55 76,67 76,71 84 C76 94,70 106,50 122 Z" fill="#f2696f" stroke="#d94f5c" stroke-width="2.5" stroke-linejoin="round"/>'
+    + '<ellipse cx="38" cy="88" rx="4.5" ry="3" fill="#fff" opacity=".85" transform="rotate(-25 38 88)"/>';
   return '<div class="bear">'
     + '<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">'
-    /* tai to trên đầu */
-    + '<circle cx="18" cy="14" r="12" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    + '<circle cx="72" cy="14" r="12" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    + '<circle cx="18" cy="14" r="5.5" fill="'+c.ear+'"/>'
-    + '<circle cx="72" cy="14" r="5.5" fill="'+c.ear+'"/>'
-    /* chân nhỏ */
-    + '<ellipse cx="24" cy="124" rx="8" ry="5.5" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    + '<ellipse cx="42" cy="124" rx="8" ry="5.5" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    /* thân nhỏ, lệch trái, chồng lên dưới đầu */
-    + '<ellipse cx="34" cy="94" rx="18" ry="26" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    + '<ellipse cx="34" cy="100" rx="10" ry="15" fill="'+c.belly+'"/>'
-    /* item bên phải, gấu ôm từ bên trái */
+    /* tai nhỏ tròn */
+    + '<circle cx="18" cy="14" r="10" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="82" cy="14" r="10" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="18" cy="14" r="4.5" fill="'+c.ear+'"/>'
+    + '<circle cx="82" cy="14" r="4.5" fill="'+c.ear+'"/>'
+    /* thân bé phía sau, lộ 2 bên */
+    + '<ellipse cx="50" cy="100" rx="26" ry="24" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    /* chân nhỏ ló ra dưới */
+    + '<ellipse cx="26" cy="122" rx="9" ry="6" fill="'+c.foot+'" stroke="'+c.footLine+'" stroke-width="2.5"/>'
+    + '<ellipse cx="74" cy="122" rx="9" ry="6" fill="'+c.foot+'" stroke="'+c.footLine+'" stroke-width="2.5"/>'
+    /* đầu siêu to ở giữa */
+    + '<circle cx="50" cy="42" r="36" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    /* item chính giữa phía trước, che phần cằm */
     + item
-    /* 2 tay ôm vòng qua cạnh trái của item */
-    + '<circle cx="56" cy="85" r="8" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    + '<circle cx="53" cy="100" r="8" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
-    /* đầu to vẽ sau cùng để nổi lên trước */
-    + '<circle cx="45" cy="40" r="33" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    /* 2 tay ôm 2 bên item */
+    + '<circle cx="29" cy="98" r="8" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="71" cy="98" r="8" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
     + '</svg>'
     + '<div class="bear-face" style="background-image:url('+faceUrl+')"></div>'
     + '</div>';
