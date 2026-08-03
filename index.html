@@ -95,11 +95,24 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
   transform-origin:top;transition:transform .7s ease,z-index 0s .35s;
 }
 .envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
-.env-pocket{
-  position:absolute;bottom:0;left:0;width:0;height:0;z-index:3;
-  border-left:140px solid #ffcadf;border-right:140px solid #ffd9e8;border-top:90px solid transparent;
+.env-pocket{position:absolute;inset:0;z-index:3;border-radius:10px;overflow:hidden;pointer-events:none}
+/* 2 tam giác 2 bên */
+.env-pocket::before{
+  content:'';position:absolute;left:0;top:0;width:0;height:0;
+  border-top:95px solid transparent;border-bottom:95px solid transparent;
+  border-left:145px solid #ffd9e8;filter:drop-shadow(2px 0 2px rgba(244,114,168,.15));
 }
-.env-pocket::after{content:'';position:absolute}
+.env-pocket::after{
+  content:'';position:absolute;right:0;top:0;width:0;height:0;
+  border-top:95px solid transparent;border-bottom:95px solid transparent;
+  border-right:145px solid #ffd9e8;filter:drop-shadow(-2px 0 2px rgba(244,114,168,.15));
+}
+/* tam giác đáy che kín thư */
+.env-pocket-b{
+  position:absolute;bottom:0;left:0;width:0;height:0;z-index:1;
+  border-left:140px solid transparent;border-right:140px solid transparent;
+  border-bottom:105px solid #ffcadf;filter:drop-shadow(0 -2px 3px rgba(244,114,168,.2));
+}
 .env-letter{
   position:absolute;left:14px;right:14px;bottom:8px;height:150px;z-index:2;
   background:var(--cream);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);
@@ -288,7 +301,7 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
       <div class="envelope" id="envelope">
         <div class="env-letter">💝</div>
         <div class="env-flap"></div>
-        <div class="env-pocket"></div>
+        <div class="env-pocket"><div class="env-pocket-b"></div></div>
         <div class="env-seal">♡</div>
       </div>
     </div>
