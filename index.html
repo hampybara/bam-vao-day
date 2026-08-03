@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday ♡</title>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  💗 HƯỚNG DẪN THAY ẢNH & LINK — chỉ cần sửa phần CONFIG bên dưới
+  (tìm chữ "CONFIG" trong file này, ở đầu thẻ <script>)
+
+  1. githubUrl : thay bằng link GitHub app expense-tracking của bạn
+  2. images.her    : ảnh mặt bạn (icon rơi trong game hứng) — vd 'her.jpg'
+     images.him    : ảnh mặt bạn trai (giỏ hứng + quân cờ đen)
+     images.couple : ảnh chung 2 người (dùng cho puzzle 3x3)
+     images.photos : 5 ảnh cho 5 lời khen
+     → Đặt file ảnh cùng thư mục với index.html rồi điền tên file,
+       hoặc để '' (rỗng) sẽ tự hiện ảnh placeholder dễ thương.
+  ═══════════════════════════════════════════════════════════════
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Baloo+2:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ffd6e7;
+  --pink-deep:#f9a8c9;
+  --pink-hot:#f472a8;
+  --cream:#fff8f0;
+  --baby-blue:#cfe8ff;
+  --lilac:#e3d5ff;
+  --text:#8a4a63;
+  --text-dark:#6d3550;
+  --shadow:0 10px 30px rgba(244,114,168,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:'Quicksand',sans-serif;
+  color:var(--text);
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(227,213,255,.55) 0 12%, transparent 13%),
+    radial-gradient(circle at 85% 15%, rgba(207,232,255,.6) 0 10%, transparent 11%),
+    radial-gradient(circle at 80% 85%, rgba(255,214,231,.7) 0 14%, transparent 15%),
+    radial-gradient(circle at 10% 80%, rgba(207,232,255,.5) 0 9%, transparent 10%),
+    linear-gradient(160deg,#fff0f6 0%,#fff8f0 45%,#eef5ff 100%);
+}
+/* nền chấm bi */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(244,114,168,.14) 2.2px, transparent 2.6px);
+  background-size:26px 26px;
+}
+/* hoa nhỏ trang trí góc */
+.flower{position:fixed;z-index:1;pointer-events:none;opacity:.8;animation:sway 4s ease-in-out infinite;font-size:26px;filter:drop-shadow(0 2px 3px rgba(244,114,168,.3))}
+@keyframes sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+#app{position:relative;z-index:2;height:100%;width:100%}
+.screen{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:22px;text-align:center;
+  opacity:0;pointer-events:none;transform:translateY(26px);
+  transition:opacity .55s ease,transform .55s ease;
+  overflow-y:auto;
+}
+.screen.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
+.hint{font-size:14px;color:#b97a95;margin-top:14px;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+.btn{
+  font-family:'Baloo 2',cursive;font-size:18px;font-weight:600;color:#fff;
+  background:linear-gradient(135deg,var(--pink-hot),var(--pink-deep));
+  border:none;border-radius:999px;padding:13px 34px;cursor:pointer;
+  box-shadow:var(--shadow);transition:transform .2s;margin-top:22px;
+}
+.btn:active{transform:scale(.94)}
+.card-frame{
+  background:rgba(255,255,255,.85);border:2px dashed var(--pink-deep);
+  border-radius:26px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(4px);
+  max-width:420px;width:100%;
+}
+
+/* ══════ 1. PHONG BÌ ══════ */
+.envelope-wrap{cursor:pointer;position:relative;animation:floaty 3s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.envelope{position:relative;width:280px;height:190px;perspective:600px}
+.env-body{position:absolute;inset:0;background:linear-gradient(160deg,#ffe1ec,#ffd6e7);border-radius:10px;box-shadow:var(--shadow)}
+.env-flap{
+  position:absolute;top:0;left:0;width:0;height:0;z-index:4;
+  border-left:140px solid transparent;border-right:140px solid transparent;
+  border-top:105px solid var(--pink-deep);
+  transform-origin:top;transition:transform .7s ease,z-index 0s .35s;
+}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.env-pocket{
+  position:absolute;bottom:0;left:0;width:0;height:0;z-index:3;
+  border-left:140px solid #ffcadf;border-right:140px solid #ffd9e8;border-top:90px solid transparent;
+}
+.env-pocket::after{content:'';position:absolute}
+.env-letter{
+  position:absolute;left:14px;right:14px;bottom:8px;height:150px;z-index:2;
+  background:var(--cream);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);
+  display:flex;align-items:center;justify-content:center;font-size:44px;
+  transition:transform .8s ease .35s;
+}
+.envelope.open .env-letter{transform:translateY(-115px)}
+.env-seal{
+  position:absolute;top:82px;left:50%;transform:translate(-50%,-50%);z-index:5;
+  width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb3d0,var(--pink-hot));
+  display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;
+  box-shadow:0 4px 10px rgba(244,114,168,.5);transition:opacity .4s;
+}
+.envelope.open .env-seal{opacity:0}
+
+/* ══════ 2. BÁNH KEM ══════ */
+.hb-title{font-family:'Pacifico',cursive;font-size:clamp(38px,10vw,60px);color:var(--pink-hot);
+  text-shadow:3px 3px 0 #fff,5px 5px 0 var(--lilac);margin-bottom:8px;animation:bounceIn 1s ease}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.cake{position:relative;width:250px;height:230px;margin:26px auto 0}
+.cake .plate{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:250px;height:26px;background:linear-gradient(#fff,#e8ddff);border-radius:50%;box-shadow:0 6px 14px rgba(155,120,200,.3)}
+.cake .layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:14px}
+.cake .l1{bottom:14px;width:210px;height:74px;background:linear-gradient(#f9a8c9,#f085b2)}
+.cake .l2{bottom:84px;width:170px;height:62px;background:linear-gradient(#cfe8ff,#a8cef2)}
+.cake .l3{bottom:142px;width:130px;height:52px;background:linear-gradient(#e3d5ff,#c9b2f5)}
+.cake .drip{position:absolute;top:-2px;left:0;right:0;height:26px;
+  background:radial-gradient(circle at 12px 0,var(--cream) 0 13px,transparent 13px) ,
+             radial-gradient(circle at 38px -4px,var(--cream) 0 15px,transparent 15px),
+             radial-gradient(circle at 64px 0,var(--cream) 0 12px,transparent 12px),
+             radial-gradient(circle at 90px -3px,var(--cream) 0 14px,transparent 14px),
+             radial-gradient(circle at 116px 0,var(--cream) 0 13px,transparent 13px),
+             radial-gradient(circle at 142px -4px,var(--cream) 0 15px,transparent 15px),
+             radial-gradient(circle at 168px 0,var(--cream) 0 12px,transparent 12px),
+             radial-gradient(circle at 194px -2px,var(--cream) 0 13px,transparent 13px);
+  border-top-left-radius:14px;border-top-right-radius:14px}
+.cake .dots span{position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;opacity:.8}
+.candle{position:absolute;bottom:190px;width:10px;height:34px;border-radius:4px;
+  background:repeating-linear-gradient(45deg,#fff 0 5px,var(--pink-hot) 5px 10px)}
+.candle .flame{
+  position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  width:12px;height:16px;background:radial-gradient(circle at 50% 80%,#ffd166,#ff9e40);
+  border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  animation:flick .35s ease-in-out infinite alternate;box-shadow:0 0 14px 4px rgba(255,190,80,.55);
+}
+@keyframes flick{from{transform:translateX(-50%) scale(1) rotate(-4deg)}to{transform:translateX(-50%) scale(1.15) rotate(5deg)}}
+
+/* ══════ 3. LÁ THƯ ══════ */
+.card-closed{cursor:pointer;width:270px;height:190px;position:relative;animation:floaty 3s ease-in-out infinite}
+.card-closed .cover{
+  position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(150deg,#fff 0%,#ffe9f2 60%,#ffd6e7 100%);
+  box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  border:2px solid #ffc2da;
+}
+.card-closed .cover .ribbon{position:absolute;top:0;bottom:0;left:44px;width:22px;background:rgba(244,114,168,.35)}
+.card-closed .cover .ribbon2{position:absolute;left:0;right:0;top:70px;height:22px;background:rgba(244,114,168,.35)}
+.letter-paper{
+  background:linear-gradient(#fffdf9,#fff6ee);
+  border-radius:20px;box-shadow:var(--shadow);
+  max-width:430px;width:100%;padding:30px 26px;text-align:left;
+  border:1.5px solid #f3cfa8;position:relative;
+  animation:unfold .8s ease;
+  max-height:76vh;overflow-y:auto;
+}
+@keyframes unfold{from{transform:scaleY(.1);opacity:0}to{transform:scaleY(1);opacity:1}}
+.letter-paper::before{content:'🌷';position:absolute;top:12px;right:16px;font-size:22px}
+.letter-paper h2{font-family:'Pacifico',cursive;color:var(--pink-hot);font-size:24px;margin-bottom:14px}
+.letter-paper p{font-size:15.5px;line-height:1.85;color:#7a4a5e;white-space:pre-line}
+.next-arrow{
+  margin:18px auto 0;display:flex;align-items:center;justify-content:center;
+  width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--pink-hot),var(--pink-deep));color:#fff;font-size:26px;
+  box-shadow:var(--shadow);animation:nudge 1.2s ease-in-out infinite;
+}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(8px)}}
+
+/* ══════ 4. PHOTOS ══════ */
+.photo-stage{width:100%;max-width:380px}
+.photo-caption{font-family:'Pacifico',cursive;font-size:clamp(26px,7vw,34px);color:var(--text-dark);margin-bottom:18px;min-height:1.4em;animation:bounceIn .6s ease}
+.polaroid{
+  background:#fff;padding:14px 14px 44px;border-radius:6px;box-shadow:var(--shadow);
+  transform:rotate(-2deg);transition:transform .3s;cursor:pointer;position:relative;
+  animation:slideUp .5s ease;
+}
+@keyframes slideUp{from{transform:translateY(40px) rotate(-2deg);opacity:0}to{transform:translateY(0) rotate(-2deg);opacity:1}}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;display:block}
+.polaroid .tape{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(3deg);width:90px;height:26px;background:rgba(227,213,255,.85);border-radius:3px}
+.dots-nav{display:flex;gap:8px;justify-content:center;margin-top:20px}
+.dots-nav span{width:10px;height:10px;border-radius:50%;background:#f2c3d6;transition:.3s}
+.dots-nav span.on{background:var(--pink-hot);transform:scale(1.3)}
+
+/* ══════ 5. GIFT INTRO / GAME CHUNG ══════ */
+.giftbox{font-size:90px;animation:floaty 2.5s ease-in-out infinite;filter:drop-shadow(0 8px 14px rgba(244,114,168,.4))}
+.challenge-tags{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.challenge-tags div{background:#fff;border:2px dashed var(--pink-deep);border-radius:14px;padding:10px 16px;font-weight:600;font-size:15px}
+.game-title{font-family:'Baloo 2',cursive;font-size:24px;font-weight:700;color:var(--text-dark)}
+.game-sub{font-size:14px;margin-top:4px;color:#b97a95}
+.score-bar{font-family:'Baloo 2',cursive;font-size:19px;font-weight:700;color:var(--pink-hot);margin:8px 0}
+
+/* game 1 - catch */
+#catch-area{
+  position:relative;width:100%;max-width:400px;height:56vh;min-height:340px;
+  background:rgba(255,255,255,.65);border:3px solid var(--pink-deep);border-radius:24px;
+  overflow:hidden;touch-action:none;cursor:pointer;
+}
+.falling{position:absolute;width:52px;height:52px;will-change:transform}
+.falling .face{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(244,114,168,.4);background-size:cover;background-position:center;margin:0 auto}
+.falling .heart{position:absolute;bottom:-4px;right:-2px;font-size:17px}
+#basket{
+  position:absolute;bottom:6px;width:78px;text-align:center;will-change:transform;transition:none;
+}
+#basket .face{width:52px;height:52px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(120,150,244,.4);background-size:cover;background-position:center;margin:0 auto}
+#basket .bk{font-size:32px;margin-top:-8px}
+.pop{animation:pop .35s ease forwards}
+@keyframes pop{to{transform:scale(1.6);opacity:0}}
+
+/* game 2 - puzzle */
+#puzzle-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:5px;
+  width:min(88vw,360px);aspect-ratio:1;margin:0 auto;
+  background:#fff;padding:8px;border-radius:18px;box-shadow:var(--shadow);
+}
+.tile{border-radius:8px;background-size:300% 300%;cursor:pointer;transition:transform .2s,outline .2s;outline:3px solid transparent}
+.tile.sel{outline:3px solid var(--pink-hot);transform:scale(.93);z-index:2}
+.tile.done-anim{animation:tileGlow .8s ease}
+@keyframes tileGlow{50%{filter:brightness(1.3)}}
+
+/* game 3 - chess */
+#chess-board{
+  display:grid;grid-template-columns:repeat(8,1fr);
+  width:min(92vw,380px);aspect-ratio:1;margin:0 auto;
+  border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:4px solid #fff;
+}
+.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sq.light{background:#fff5f7}.sq.dark{background:#f6c9d8}
+.sq.sel{box-shadow:inset 0 0 0 3px var(--pink-hot)}
+.sq.hint-pulse{animation:hintPulse 1s ease-in-out infinite}
+@keyframes hintPulse{50%{box-shadow:inset 0 0 0 4px #ffd166}}
+.pc{width:82%;height:82%;border-radius:50%;background-size:cover;background-position:center;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  box-shadow:0 2px 5px rgba(0,0,0,.25)}
+.pc.w{border:2.5px solid #fff}.pc.b{border:2.5px solid #6d3550}
+.pc .sym{position:absolute;bottom:-4px;right:-5px;font-size:13px;line-height:1;
+  background:#fff;border-radius:50%;width:17px;height:17px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--text-dark);color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;font-weight:600;
+  transition:transform .35s ease;z-index:50;white-space:nowrap;max-width:92vw;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ══════ FINAL ══════ */
+.final-box{font-size:96px;animation:openJump .9s ease}
+@keyframes openJump{0%{transform:scale(.4) rotate(-10deg)}60%{transform:scale(1.15) rotate(4deg)}100%{transform:scale(1)}}
+.gh-btn{
+  display:inline-flex;align-items:center;gap:9px;margin-top:16px;
+  font-family:'Baloo 2',cursive;font-size:17px;font-weight:700;color:#fff;text-decoration:none;
+  background:linear-gradient(135deg,#8b5fbf,#b28ae8);border-radius:999px;padding:13px 28px;box-shadow:0 8px 20px rgba(139,95,191,.4);
+}
+.howto{
+  margin-top:20px;text-align:left;background:#fff;border-radius:18px;padding:16px 18px;
+  border:2px dashed var(--baby-blue);font-size:14px;line-height:1.7;
+}
+.howto b{color:var(--text-dark)}
+.win-banner{font-family:'Pacifico',cursive;font-size:30px;color:var(--pink-hot);animation:bounceIn .7s ease}
+
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:40}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<span class="flower" style="top:4%;left:5%">🌸</span>
+<span class="flower" style="top:8%;right:7%;animation-delay:.8s">🌷</span>
+<span class="flower" style="bottom:6%;left:8%;animation-delay:1.4s">🎀</span>
+<span class="flower" style="bottom:9%;right:5%;animation-delay:.4s">🌼</span>
+
+<div id="app">
+
+  <!-- 1. PHONG BÌ -->
+  <section class="screen active" id="s-envelope">
+    <h1 class="script" style="font-size:clamp(26px,7vw,36px);margin-bottom:34px">Có thư gửi đến anh Long 💌</h1>
+    <div class="envelope-wrap" id="envelope-wrap">
+      <div class="envelope" id="envelope">
+        <div class="env-letter">💝</div>
+        <div class="env-flap"></div>
+        <div class="env-pocket"></div>
+        <div class="env-seal">♡</div>
+      </div>
+    </div>
+    <p class="hint">chạm vào phong bì để mở nè ✨</p>
+  </section>
+
+  <!-- 2. BÁNH KEM -->
+  <section class="screen" id="s-cake">
+    <div class="hb-title">Happy Birthday!</div>
+    <p style="font-family:'Baloo 2',cursive;font-size:19px;font-weight:600">🎂 chúc mừng anh tròn 22 tuổi 🎂</p>
+    <div class="cake">
+      <div class="candle" style="left:92px"><div class="flame"></div></div>
+      <div class="candle" style="left:122px;height:42px"><div class="flame"></div></div>
+      <div class="candle" style="left:152px"><div class="flame"></div></div>
+      <div class="layer l3"><div class="drip"></div></div>
+      <div class="layer l2"><div class="drip"></div>
+        <div class="dots"><span style="top:34px;left:22px"></span><span style="top:40px;left:70px"></span><span style="top:32px;left:120px"></span></div>
+      </div>
+      <div class="layer l1"><div class="drip"></div>
+        <div class="dots"><span style="top:44px;left:30px"></span><span style="top:52px;left:90px"></span><span style="top:42px;left:150px"></span></div>
+      </div>
+      <div class="plate"></div>
+    </div>
+    <button class="btn" onclick="goTo('s-letter-closed')">tiếp tục nào ✉️</button>
+  </section>
+
+  <!-- 3a. THIỆP ĐÓNG -->
+  <section class="screen" id="s-letter-closed">
+    <h1 class="script" style="font-size:clamp(24px,6vw,32px);margin-bottom:30px">Một lá thư nhỏ cho anh 🎀</h1>
+    <div class="card-closed" onclick="goTo('s-letter')">
+      <div class="cover">
+        <div class="ribbon"></div><div class="ribbon2"></div>
+        <span style="font-size:46px;z-index:1">🎀</span>
+        <span style="font-family:'Pacifico',cursive;color:var(--pink-hot);font-size:18px;z-index:1">To: anh Long</span>
+      </div>
+    </div>
+    <p class="hint">chạm vào thiệp để đọc thư 💌</p>
+  </section>
+
+  <!-- 3b. NỘI DUNG THƯ -->
+  <section class="screen" id="s-letter">
+    <div class="letter-paper">
+      <h2>Long thương mến,</h2>
+      <p>Chúc mừng sinh nhật! Năm nay đánh dấu sự trưởng thành của anh rùii. Anh đã tốt nghiệp xuất sắc và có công việc full time đầu tiên. Từ giờ anh sẽ có thu nhập của riêng mình, được mua những thứ mình thích và xây dựng cuộc sống độc lập tự do. Em biết đôi khi hành trình đó không dễ dàng và có rất nhiều áp lực, đôi lúc anh sẽ thấy mệt mỏi, hoài nghi, nhưng anh đừng lo vì có em cũng tập làm người lớn cùng anh. Tụi mình sẽ cùng học và cùng nhau lớn lên. Trên hành trình đó hãy tận hưởng tuổi trẻ có nhau nháaa. Em chúc anh tuổi 22 thật vững vàng, thật nhiều sức khỏe, may mắn, và thành công! Em tin anh sẽ làm được. Mong rằng món quà nhỏ này giúp anh luôn nhớ rằng anh rất đặc biệt, vì...</p>
+      <button class="next-arrow" onclick="goTo('s-photos')">→</button>
+    </div>
+  </section>
+
+  <!-- 4. 5 ẢNH -->
+  <section class="screen" id="s-photos">
+    <div class="photo-stage">
+      <div class="photo-caption" id="photo-caption"></div>
+      <div class="polaroid" id="polaroid" onclick="nextPhoto()">
+        <div class="tape"></div>
+        <img id="photo-img" alt="photo">
+      </div>
+      <div class="dots-nav" id="photo-dots"></div>
+      <p class="hint">chạm hoặc vuốt để xem tiếp 💗</p>
+    </div>
+  </section>
+
+  <!-- 5. GIFT INTRO -->
+  <section class="screen" id="s-giftintro">
+    <div class="giftbox">🎁</div>
+    <h1 class="script" style="font-size:clamp(24px,6vw,32px);margin-top:10px">Và đây là quà của anh!</h1>
+    <p style="margin-top:10px;font-weight:600">nhưng mà khoan... muốn mở quà thì anh phải<br>vượt qua <b style="color:var(--pink-hot)">3 thử thách</b> đã nha 😤</p>
+    <div class="challenge-tags">
+      <div>1️⃣ Catch me if you can 🧺</div>
+      <div>2️⃣ Ghép hình tụi mình 🧩</div>
+      <div>3️⃣ Chiếu hết trong 1 nước ♟️</div>
+    </div>
+    <button class="btn" onclick="goTo('s-game1')">bắt đầu thôi! 💪</button>
+  </section>
+
+  <!-- 6. GAME 1: CATCH -->
+  <section class="screen" id="s-game1">
+    <div class="game-title">Thử thách 1: Catch me if you can 🧺</div>
+    <div class="game-sub">di chuyển giỏ để hứng em nè! kéo/vuốt hoặc dùng phím ← →</div>
+    <div class="score-bar"><span id="catch-score">0</span> / <span id="catch-target">10</span> 💗</div>
+    <div id="catch-area">
+      <div id="basket">
+        <div class="face" id="basket-face"></div>
+        <div class="bk">🧺</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. GAME 2: PUZZLE -->
+  <section class="screen" id="s-game2">
+    <div class="game-title">Thử thách 2: Ghép hình tụi mình 🧩</div>
+    <div class="game-sub">chạm 2 mảnh để đổi chỗ cho nhau, ghép lại bức ảnh nha</div>
+    <div style="height:14px"></div>
+    <div id="puzzle-grid"></div>
+  </section>
+
+  <!-- 8. GAME 3: CHESS -->
+  <section class="screen" id="s-game3">
+    <div class="game-title">Thử thách 3: Chiếu hết trong 1 nước ♟️</div>
+    <div class="game-sub">anh cầm quân trắng (là em đó 🐰) — chỉ 1 nước để chiếu hết vua đen!</div>
+    <div style="height:14px"></div>
+    <div id="chess-board"></div>
+    <p class="hint" id="chess-hint" style="min-height:1.5em"></p>
+  </section>
+
+  <!-- 9. FINAL -->
+  <section class="screen" id="s-final">
+    <div class="win-banner">Yayyy anh làm được rồi! 🎉</div>
+    <div class="final-box">🎁✨</div>
+    <div class="card-frame">
+      <p style="font-size:16px;line-height:1.8;font-weight:500">
+        em tạo app này <b style="color:var(--pink-hot)">dành riêng cho anh</b>,<br>
+        giúp anh quản lý tài chính dễ dàng<br>và tiện lợi hơn nè 💸💕
+      </p>
+      <a class="gh-btn" id="github-link" href="#" target="_blank" rel="noopener">🔗 Mở app của anh</a>
+      <div class="howto">
+        <b>📱 Cách thêm app vào màn hình chính:</b><br>
+        <b>iPhone (Safari):</b> mở link → bấm nút <b>Chia sẻ</b> (ô vuông có mũi tên ↑) → chọn <b>"Thêm vào MH chính"</b> (Add to Home Screen) → <b>Thêm</b>.<br>
+        <b>Android (Chrome):</b> mở link → bấm menu <b>⋮</b> góc trên → chọn <b>"Thêm vào màn hình chính"</b> → <b>Thêm</b>.<br>
+        vậy là mở app như app thật luôn đó! 😎
+      </div>
+      <p style="margin-top:16px;font-family:'Pacifico',cursive;font-size:19px;color:var(--pink-hot)">happy 22, with love ♡</p>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   💗 CONFIG — SỬA Ở ĐÂY
+═══════════════════════════════════════════════ */
+const CONFIG = {
+  // 👉 THAY link GitHub app expense-tracking của bạn vào đây:
+  githubUrl: 'https://github.com/YOUR_USERNAME/expense-tracking',
+  images: {
+    her:    '',   // ảnh mặt bạn (ôm trái tim, rơi trong game 1 + quân trắng cờ vua)
+    him:    '',   // ảnh mặt bạn trai (giỏ hứng game 1 + quân đen cờ vua)
+    couple: '',   // ảnh chung 2 người cho puzzle 3x3
+    photos: ['', '', '', '', ''],  // 5 ảnh cho 5 lời khen
+  },
+  catchTarget: 10, // số tim cần hứng để qua màn 1
+};
+const CAPTIONS = [
+  "you're funny",
+  "you're smart",
+  "you stay consistent",
+  "you care about others' feelings",
+  "you don't give up",
+];
+
+/* ══════ placeholder generator (dùng khi chưa có ảnh thật) ══════ */
+function seededRand(seed){ let s = seed; return () => (s = (s*9301+49297)%233280) / 233280; }
+function makePlaceholder(emoji, label, c1, c2, seed){
+  const size = 600, cv = document.createElement('canvas');
+  cv.width = cv.height = size;
+  const ctx = cv.getContext('2d');
+  const g = ctx.createLinearGradient(0,0,size,size);
+  g.addColorStop(0,c1); g.addColorStop(1,c2);
+  ctx.fillStyle = g; ctx.fillRect(0,0,size,size);
+  const rnd = seededRand(seed);
+  ctx.fillStyle = 'rgba(255,255,255,.35)';
+  for(let i=0;i<36;i++){
+    ctx.beginPath();
+    ctx.arc(rnd()*size, rnd()*size, 4+rnd()*8, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.font = (size*0.34)+'px serif';
+  ctx.fillText(emoji, size/2, size/2 - size*0.04);
+  if(label){
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    ctx.beginPath();
+    const w = size*0.62, h = size*0.1;
+    ctx.roundRect(size/2-w/2, size*0.78-h/2, w, h, h/2);
+    ctx.fill();
+    ctx.fillStyle = '#a15b74';
+    ctx.font = '600 '+(size*0.045)+'px Quicksand, sans-serif';
+    ctx.fillText(label, size/2, size*0.785);
+  }
+  return cv.toDataURL('image/png');
+}
+const IMG = {
+  her:    CONFIG.images.her    || makePlaceholder('🐰','ảnh em nè', '#ffd6e7','#e3d5ff', 7),
+  him:    CONFIG.images.him    || makePlaceholder('🐻','ảnh anh nè', '#cfe8ff','#e3d5ff', 13),
+  couple: CONFIG.images.couple || makePlaceholder('🐻🐰','ảnh tụi mình','#ffd6e7','#cfe8ff', 21),
+  photos: CONFIG.images.photos.map((p,i)=> p || makePlaceholder(['😆','🧠','🌱','💞','🔥'][i], 'ảnh số '+(i+1), ['#ffd6e7','#cfe8ff','#e3d5ff','#ffe8cc','#d5f5e3'][i], '#fff8f0', 30+i*7)),
+};
+document.getElementById('github-link').href = CONFIG.githubUrl;
+
+/* ══════ điều hướng màn hình ══════ */
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  if(id === 's-cake')   burstConfetti(2600);
+  if(id === 's-photos') initPhotos();
+  if(id === 's-game1')  startCatchGame();
+  if(id === 's-game2')  initPuzzle();
+  if(id === 's-game3')  initChess();
+  if(id === 's-final')  burstConfetti(4000);
+}
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ══════ confetti ══════ */
+const cCanvas = document.getElementById('confetti-canvas');
+const cCtx = cCanvas.getContext('2d');
+let confetti = [], confettiOn = false;
+function sizeCanvas(){ cCanvas.width = innerWidth; cCanvas.height = innerHeight; }
+sizeCanvas(); addEventListener('resize', sizeCanvas);
+const C_COLORS = ['#f472a8','#f9a8c9','#cfe8ff','#e3d5ff','#ffd166','#fff'];
+function burstConfetti(dur){
+  for(let i=0;i<120;i++){
+    confetti.push({
+      x: Math.random()*cCanvas.width, y: -20 - Math.random()*cCanvas.height*0.5,
+      w: 6+Math.random()*7, h: 8+Math.random()*8,
+      vy: 2+Math.random()*3, vx: -1.2+Math.random()*2.4,
+      rot: Math.random()*Math.PI, vr: -0.1+Math.random()*0.2,
+      color: C_COLORS[i % C_COLORS.length],
+    });
+  }
+  if(!confettiOn){ confettiOn = true; confettiLoop(); }
+  setTimeout(()=> confetti = confetti.filter(p => p.y < cCanvas.height), dur);
+}
+function confettiLoop(){
+  cCtx.clearRect(0,0,cCanvas.width,cCanvas.height);
+  confetti.forEach(p=>{
+    p.y += p.vy; p.x += p.vx; p.rot += p.vr;
+    cCtx.save(); cCtx.translate(p.x,p.y); cCtx.rotate(p.rot);
+    cCtx.fillStyle = p.color; cCtx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cCtx.restore();
+  });
+  confetti = confetti.filter(p => p.y < cCanvas.height + 30);
+  if(confetti.length){ requestAnimationFrame(confettiLoop); }
+  else { confettiOn = false; cCtx.clearRect(0,0,cCanvas.width,cCanvas.height); }
+}
+
+/* ══════ 1. phong bì ══════ */
+document.getElementById('envelope-wrap').addEventListener('click', function(){
+  const env = document.getElementById('envelope');
+  if(env.classList.contains('open')) return;
+  env.classList.add('open');
+  setTimeout(()=> goTo('s-cake'), 1400);
+});
+
+/* ══════ 4. photos ══════ */
+let photoIdx = 0;
+function initPhotos(){
+  photoIdx = 0;
+  const dots = document.getElementById('photo-dots');
+  dots.innerHTML = CAPTIONS.map(()=>'<span></span>').join('');
+  showPhoto();
+}
+function showPhoto(){
+  document.getElementById('photo-caption').textContent = '♡ ' + CAPTIONS[photoIdx] + ' ♡';
+  const img = document.getElementById('photo-img');
+  img.src = IMG.photos[photoIdx];
+  const pol = document.getElementById('polaroid');
+  pol.style.animation = 'none'; void pol.offsetWidth; pol.style.animation = '';
+  const cap = document.getElementById('photo-caption');
+  cap.style.animation = 'none'; void cap.offsetWidth; cap.style.animation = '';
+  document.querySelectorAll('#photo-dots span').forEach((d,i)=> d.classList.toggle('on', i === photoIdx));
+}
+function nextPhoto(){
+  if(photoIdx < CAPTIONS.length - 1){ photoIdx++; showPhoto(); }
+  else goTo('s-giftintro');
+}
+/* vuốt qua ảnh */
+let touchX = null;
+const photoScreen = document.getElementById('s-photos');
+photoScreen.addEventListener('touchstart', e => touchX = e.touches[0].clientX, {passive:true});
+photoScreen.addEventListener('touchend', e => {
+  if(touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(dx < -40) nextPhoto();
+  else if(dx > 40 && photoIdx > 0){ photoIdx--; showPhoto(); }
+  touchX = null;
+}, {passive:true});
+
+/* ══════ GAME 1: catch ══════ */
+let catchState = null;
+function startCatchGame(){
+  const area = document.getElementById('catch-area');
+  area.querySelectorAll('.falling').forEach(el => el.remove());
+  document.getElementById('basket-face').style.backgroundImage = 'url('+IMG.him+')';
+  document.getElementById('catch-target').textContent = CONFIG.catchTarget;
+  document.getElementById('catch-score').textContent = '0';
+  if(catchState && catchState.raf) cancelAnimationFrame(catchState.raf);
+  catchState = {
+    score: 0, items: [], done: false,
+    basketX: area.clientWidth/2, lastSpawn: 0, raf: null, keys: {},
+  };
+  positionBasket();
+  catchLoop(performance.now());
+}
+function positionBasket(){
+  const area = document.getElementById('catch-area');
+  const basket = document.getElementById('basket');
+  const half = basket.offsetWidth/2;
+  catchState.basketX = Math.max(half, Math.min(area.clientWidth - half, catchState.basketX));
+  basket.style.left = (catchState.basketX - half) + 'px';
+}
+function spawnFalling(){
+  const area = document.getElementById('catch-area');
+  const el = document.createElement('div');
+  el.className = 'falling';
+  el.innerHTML = '<div class="face" style="background-image:url('+IMG.her+')"></div><div class="heart">💗</div>';
+  const x = 10 + Math.random()*(area.clientWidth - 62);
+  el.style.left = x + 'px';
+  el.style.top = '-56px';
+  area.appendChild(el);
+  catchState.items.push({el, x, y: -56, speed: 2 + Math.random()*1.4 + catchState.score*0.12});
+}
+function catchLoop(t){
+  if(!catchState || catchState.done) return;
+  const area = document.getElementById('catch-area');
+  const basket = document.getElementById('basket');
+  if(!document.getElementById('s-game1').classList.contains('active')) return;
+
+  if(t - catchState.lastSpawn > Math.max(500, 950 - catchState.score*35)){
+    spawnFalling();
+    catchState.lastSpawn = t;
+  }
+  /* phím mũi tên */
+  if(catchState.keys.ArrowLeft)  { catchState.basketX -= 7; positionBasket(); }
+  if(catchState.keys.ArrowRight) { catchState.basketX += 7; positionBasket(); }
+
+  const basketTop = area.clientHeight - basket.offsetHeight - 6;
+  const bHalf = basket.offsetWidth/2;
+  catchState.items = catchState.items.filter(it=>{
+    it.y += it.speed;
+    it.el.style.top = it.y + 'px';
+    const itCx = it.x + 26;
+    if(it.y + 46 >= basketTop + 12 && it.y < area.clientHeight){
+      if(Math.abs(itCx - catchState.basketX) < bHalf + 12){
+        it.el.classList.add('pop');
+        setTimeout(el => el.remove(), 350, it.el);
+        catchState.score++;
+        document.getElementById('catch-score').textContent = catchState.score;
+        if(catchState.score >= CONFIG.catchTarget){
+          catchState.done = true;
+          toast('Giỏi quá!! qua màn 1 rồi nè 🎉');
+          setTimeout(()=> goTo('s-game2'), 1200);
+        }
+        return false;
+      }
+    }
+    if(it.y > area.clientHeight){ it.el.remove(); return false; }
+    return true;
+  });
+  catchState.raf = requestAnimationFrame(catchLoop);
+}
+/* điều khiển giỏ */
+(function(){
+  const area = document.getElementById('catch-area');
+  function moveTo(clientX){
+    if(!catchState) return;
+    const r = area.getBoundingClientRect();
+    catchState.basketX = clientX - r.left;
+    positionBasket();
+  }
+  area.addEventListener('pointermove', e => { if(e.buttons || e.pointerType==='touch') moveTo(e.clientX); });
+  area.addEventListener('pointerdown', e => moveTo(e.clientX));
+  area.addEventListener('touchmove', e => { moveTo(e.touches[0].clientX); e.preventDefault(); }, {passive:false});
+  addEventListener('keydown', e => { if(catchState) catchState.keys[e.key] = true; });
+  addEventListener('keyup',   e => { if(catchState) catchState.keys[e.key] = false; });
+})();
+
+/* ══════ GAME 2: puzzle ══════ */
+let pzTiles = [], pzSel = -1, pzLock = false;
+function initPuzzle(){
+  const grid = document.getElementById('puzzle-grid');
+  grid.innerHTML = '';
+  pzSel = -1; pzLock = false;
+  pzTiles = [0,1,2,3,4,5,6,7,8];
+  do {
+    for(let i = pzTiles.length-1; i > 0; i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [pzTiles[i], pzTiles[j]] = [pzTiles[j], pzTiles[i]];
+    }
+  } while(pzTiles.every((v,i)=> v === i));
+  pzTiles.forEach((v, i)=>{
+    const d = document.createElement('div');
+    d.className = 'tile';
+    d.dataset.pos = i;
+    d.style.backgroundImage = 'url('+IMG.couple+')';
+    setTileBg(d, v);
+    d.addEventListener('click', ()=> tileClick(i));
+    grid.appendChild(d);
+  });
+}
+function setTileBg(el, v){
+  el.dataset.val = v;
+  el.style.backgroundPosition = (v%3)*50 + '% ' + Math.floor(v/3)*50 + '%';
+}
+function tileClick(i){
+  if(pzLock) return;
+  const tiles = document.querySelectorAll('#puzzle-grid .tile');
+  if(pzSel === -1){
+    pzSel = i;
+    tiles[i].classList.add('sel');
+  } else if(pzSel === i){
+    tiles[i].classList.remove('sel');
+    pzSel = -1;
+  } else {
+    [pzTiles[pzSel], pzTiles[i]] = [pzTiles[i], pzTiles[pzSel]];
+    setTileBg(tiles[pzSel], pzTiles[pzSel]);
+    setTileBg(tiles[i], pzTiles[i]);
+    tiles[pzSel].classList.remove('sel');
+    pzSel = -1;
+    if(pzTiles.every((v,idx)=> v === idx)){
+      pzLock = true;
+      tiles.forEach(t => t.classList.add('done-anim'));
+      toast('Ghép xong rồii, đúng là tụi mình 🥹💕');
+      burstConfetti(1500);
+      setTimeout(()=> goTo('s-game3'), 1600);
+    }
+  }
+}
+
+/* ══════ GAME 3: chess — chiếu hết trong 1 nước ══════
+   Thế cờ Scholar's Mate: Trắng đi Qh5 → f7 là chiếu hết.
+   Quân trắng = mặt "her" 🐰, quân đen = mặt "him" 🐻          */
+const CHESS_FEN = 'r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR';
+const SYM = {k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
+let chessSel = null, chessTries = 0, chessDone = false;
+let chessBoardArr = [];
+function initChess(){
+  chessSel = null; chessTries = 0; chessDone = false;
+  document.getElementById('chess-hint').textContent = 'chạm chọn quân trắng, rồi chạm ô muốn đi';
+  chessBoardArr = [];
+  CHESS_FEN.split('/').forEach(rank=>{
+    const row = [];
+    for(const ch of rank){
+      if(/\d/.test(ch)){ for(let k=0;k<+ch;k++) row.push(null); }
+      else row.push(ch);
+    }
+    chessBoardArr.push(row);
+  });
+  renderChess();
+}
+function renderChess(){
+  const board = document.getElementById('chess-board');
+  board.innerHTML = '';
+  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+    const sq = document.createElement('div');
+    sq.className = 'sq ' + ((r+c)%2 === 0 ? 'light' : 'dark');
+    sq.dataset.r = r; sq.dataset.c = c;
+    const p = chessBoardArr[r][c];
+    if(p){
+      const isWhite = p === p.toUpperCase();
+      const pc = document.createElement('div');
+      pc.className = 'pc ' + (isWhite ? 'w' : 'b');
+      pc.style.backgroundImage = 'url(' + (isWhite ? IMG.her : IMG.him) + ')';
+      pc.innerHTML = '<span class="sym">' + SYM[p.toLowerCase()] + '</span>';
+      sq.appendChild(pc);
+    }
+    sq.addEventListener('click', ()=> chessClick(r,c,sq));
+    board.appendChild(sq);
+  }
+  if(chessSel){
+    board.children[chessSel.r*8 + chessSel.c].classList.add('sel');
+  }
+}
+function chessClick(r,c,sq){
+  if(chessDone) return;
+  const p = chessBoardArr[r][c];
+  const isWhite = p && p === p.toUpperCase();
+  if(chessSel === null){
+    if(isWhite){ chessSel = {r,c}; renderChess(); }
+    else if(p) toast('Đó là quân của đối thủ đó anh ơi 😅');
+    return;
+  }
+  if(chessSel.r === r && chessSel.c === c){ chessSel = null; renderChess(); return; }
+  if(isWhite){ chessSel = {r,c}; renderChess(); return; }
+  /* nước thắng: Hậu h5 (row 3, col 7) ăn f7 (row 1, col 5) */
+  if(chessSel.r === 3 && chessSel.c === 7 && r === 1 && c === 5){
+    chessDone = true;
+    chessBoardArr[1][5] = 'Q';
+    chessBoardArr[3][7] = null;
+    chessSel = null;
+    renderChess();
+    document.getElementById('chess-hint').textContent = '';
+    toast('CHECKMATE!! ♛ Anh đỉnh quá trờiii 👑');
+    burstConfetti(2500);
+    setTimeout(()=> goTo('s-final'), 1800);
+  } else {
+    chessTries++;
+    chessSel = null;
+    renderChess();
+    document.getElementById('chess-board').classList.add('shake');
+    setTimeout(()=> document.getElementById('chess-board').classList.remove('shake'), 450);
+    toast('Chưa phải nước chiếu hết, thử lại nha! 🤔');
+    if(chessTries >= 3){
+      document.getElementById('chess-hint').textContent = '💡 Gợi ý: Hậu trắng ♛ đang nhắm vào chốt f7 sát vua đen đó… và có Tượng ♝ yểm trợ nữa 👀';
+      const board = document.getElementById('chess-board');
+      board.children[3*8 + 7].classList.add('hint-pulse');
+    }
+  }
+}
+
+/* roundRect fallback cho trình duyệt cũ */
+if(!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    this.moveTo(x+r,y); this.arcTo(x+w,y,x+w,y+h,r); this.arcTo(x+w,y+h,x,y+h,r);
+    this.arcTo(x,y+h,x,y,r); this.arcTo(x,y,x+w,y,r); this.closePath();
+  };
+}
+</script>
+</body>
+</html>
