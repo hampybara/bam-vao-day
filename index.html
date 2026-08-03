@@ -10,8 +10,8 @@
   (tìm chữ "CONFIG" trong file này, ở đầu thẻ <script>)
 
   1. githubUrl : thay bằng link GitHub app expense-tracking của bạn
-  2. images.her    : ảnh mặt bạn (icon rơi trong game hứng) — vd 'her.jpg'
-     images.him    : ảnh mặt bạn trai (giỏ hứng + quân cờ đen)
+  2. images.her    : ảnh mặt bạn — ghép vào đầu gấu trắng ôm tim (game hứng)
+     images.him    : ảnh mặt bạn trai — ghép vào đầu gấu nâu ôm giỏ
      images.couple : ảnh chung 2 người (dùng cho puzzle 3x3)
      images.photos : 6 ảnh cho 6 lời khen
      → Đặt file ảnh cùng thư mục với index.html rồi điền tên file,
@@ -226,14 +226,14 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
   background:rgba(255,255,255,.65);border:3px solid var(--pink-deep);border-radius:24px;
   overflow:hidden;touch-action:none;cursor:pointer;
 }
-.falling{position:absolute;width:52px;height:52px;will-change:transform}
-.falling .face{width:44px;height:44px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(244,114,168,.4);background-size:cover;background-position:center;margin:0 auto}
-.falling .heart{position:absolute;bottom:-4px;right:-2px;font-size:17px}
-#basket{
-  position:absolute;bottom:6px;width:78px;text-align:center;will-change:transform;transition:none;
+.falling{position:absolute;width:56px;height:73px;will-change:transform}
+#basket{position:absolute;bottom:6px;width:88px;height:114px;will-change:transform;transition:none}
+.bear{position:relative;width:100%;height:100%;filter:drop-shadow(0 4px 6px rgba(180,120,150,.3))}
+.bear svg{width:100%;height:100%;display:block}
+.bear-face{
+  position:absolute;left:28%;top:9.2%;width:44%;aspect-ratio:1;border-radius:50%;
+  background-size:cover;background-position:center;
 }
-#basket .face{width:52px;height:52px;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 8px rgba(120,150,244,.4);background-size:cover;background-position:center;margin:0 auto}
-#basket .bk{font-size:32px;margin-top:-8px}
 .pop{animation:pop .35s ease forwards}
 @keyframes pop{to{transform:scale(1.6);opacity:0}}
 
@@ -259,13 +259,10 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
 .sq.sel{box-shadow:inset 0 0 0 3px var(--pink-hot)}
 .sq.hint-pulse{animation:hintPulse 1s ease-in-out infinite}
 @keyframes hintPulse{50%{box-shadow:inset 0 0 0 4px #ffd166}}
-.pc{width:82%;height:82%;border-radius:50%;background-size:cover;background-position:center;
-  display:flex;align-items:center;justify-content:center;position:relative;
-  box-shadow:0 2px 5px rgba(0,0,0,.25)}
-.pc.w{border:2.5px solid #fff}.pc.b{border:2.5px solid #6d3550}
-.pc .sym{position:absolute;bottom:-4px;right:-5px;font-size:13px;line-height:1;
-  background:#fff;border-radius:50%;width:17px;height:17px;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.pc{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:clamp(24px,8vw,34px);line-height:1;user-select:none}
+.pc.w{color:#fffdfd;text-shadow:0 1.5px 0 #c98aa8,0 2px 4px rgba(109,53,80,.5)}
+.pc.b{color:#53304a;text-shadow:0 1px 2px rgba(255,255,255,.55)}
 .shake{animation:shake .4s ease}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 .toast{
@@ -394,10 +391,7 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
     <div class="game-sub">di chuyển giỏ để hứng em nè! kéo/vuốt hoặc dùng phím ← →</div>
     <div class="score-bar"><span id="catch-score">0</span> / <span id="catch-target">10</span> 💗</div>
     <div id="catch-area">
-      <div id="basket">
-        <div class="face" id="basket-face"></div>
-        <div class="bk">🧺</div>
-      </div>
+      <div id="basket"></div>
     </div>
   </section>
 
@@ -412,7 +406,7 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
   <!-- 8. GAME 3: CHESS -->
   <section class="screen" id="s-game3">
     <div class="game-title">Thử thách 3: Chiếu hết trong 1 nước ♟️</div>
-    <div class="game-sub">anh cầm quân trắng (là em đó 🐰) — chỉ 1 nước để chiếu hết vua đen!</div>
+    <div class="game-sub">anh cầm quân trắng — chỉ 1 nước để chiếu hết vua đen!</div>
     <div style="height:14px"></div>
     <div id="chess-board"></div>
     <p class="hint" id="chess-hint" style="min-height:1.5em"></p>
@@ -449,8 +443,8 @@ const CONFIG = {
   // 👉 THAY link GitHub app expense-tracking của bạn vào đây:
   githubUrl: 'https://hampybara.github.io/danh-tang-long-iu/',
   images: {
-    her:    '',   // ảnh mặt bạn (ôm trái tim, rơi trong game 1 + quân trắng cờ vua)
-    him:    '',   // ảnh mặt bạn trai (giỏ hứng game 1 + quân đen cờ vua)
+    her:    '',   // ảnh mặt bạn — ghép vào đầu gấu trắng ôm tim (rơi trong game 1)
+    him:    '',   // ảnh mặt bạn trai — ghép vào đầu gấu nâu ôm giỏ (game 1)
     couple: '',   // ảnh chung 2 người cho puzzle 3x3
     photos: ['', '', '', '', '', ''],  // 6 ảnh cho 6 lời khen
   },
@@ -599,11 +593,39 @@ photoScreen.addEventListener('touchend', e => {
 }, {passive:true});
 
 /* ══════ GAME 1: catch ══════ */
+/* gấu SVG: đầu để trống, ghép ảnh mặt vào .bear-face */
+function bearHTML(kind, faceUrl){
+  const c = kind === 'brown'
+    ? {body:'#b98a5f', line:'#8a6041', belly:'#dbb68d', ear:'#e8b48c'}
+    : {body:'#ffffff', line:'#d9bfcb', belly:'#ffeef5', ear:'#f9a8c9'};
+  const item = kind === 'brown'
+    ? '<rect x="26" y="72" width="48" height="8" rx="3" fill="#c98f52" stroke="#a9743a" stroke-width="2"/>'
+    + '<path d="M30 80 L70 80 L65 108 L35 108 Z" fill="#e0aa6b" stroke="#a9743a" stroke-width="2.5" stroke-linejoin="round"/>'
+    + '<path d="M32.5 89 L67.5 89 M34.5 98 L65.5 98" stroke="#a9743a" stroke-width="1.5" opacity=".55" fill="none"/>'
+    : '<path d="M50 106 C36 93,29.5 84.5,33.5 76.5 C36.5 70.5,46 70.5,50 79 C54 70.5,63.5 70.5,66.5 76.5 C70.5 84.5,64 93,50 106 Z" fill="#f4548f" stroke="#d63d78" stroke-width="2.5" stroke-linejoin="round"/>';
+  return '<div class="bear">'
+    + '<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">'
+    + '<circle cx="30" cy="16" r="11" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="70" cy="16" r="11" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="30" cy="16" r="5" fill="'+c.ear+'"/>'
+    + '<circle cx="70" cy="16" r="5" fill="'+c.ear+'"/>'
+    + '<ellipse cx="34" cy="121" rx="10" ry="7" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<ellipse cx="66" cy="121" rx="10" ry="7" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<ellipse cx="50" cy="92" rx="31" ry="33" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<ellipse cx="50" cy="100" rx="19" ry="21" fill="'+c.belly+'"/>'
+    + '<circle cx="50" cy="34" r="26" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + item
+    + '<circle cx="28" cy="85" r="9" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '<circle cx="72" cy="85" r="9" fill="'+c.body+'" stroke="'+c.line+'" stroke-width="2.5"/>'
+    + '</svg>'
+    + '<div class="bear-face" style="background-image:url('+faceUrl+')"></div>'
+    + '</div>';
+}
 let catchState = null;
 function startCatchGame(){
   const area = document.getElementById('catch-area');
   area.querySelectorAll('.falling').forEach(el => el.remove());
-  document.getElementById('basket-face').style.backgroundImage = 'url('+IMG.him+')';
+  document.getElementById('basket').innerHTML = bearHTML('brown', IMG.him);
   document.getElementById('catch-target').textContent = CONFIG.catchTarget;
   document.getElementById('catch-score').textContent = '0';
   if(catchState && catchState.raf) cancelAnimationFrame(catchState.raf);
@@ -625,12 +647,12 @@ function spawnFalling(){
   const area = document.getElementById('catch-area');
   const el = document.createElement('div');
   el.className = 'falling';
-  el.innerHTML = '<div class="face" style="background-image:url('+IMG.her+')"></div><div class="heart">💗</div>';
-  const x = 10 + Math.random()*(area.clientWidth - 62);
+  el.innerHTML = bearHTML('white', IMG.her);
+  const x = 10 + Math.random()*(area.clientWidth - 66);
   el.style.left = x + 'px';
-  el.style.top = '-56px';
+  el.style.top = '-76px';
   area.appendChild(el);
-  catchState.items.push({el, x, y: -56, speed: 2 + Math.random()*1.4 + catchState.score*0.12});
+  catchState.items.push({el, x, y: -76, speed: 2 + Math.random()*1.4 + catchState.score*0.12});
 }
 function catchLoop(t){
   if(!catchState || catchState.done) return;
@@ -651,8 +673,8 @@ function catchLoop(t){
   catchState.items = catchState.items.filter(it=>{
     it.y += it.speed;
     it.el.style.top = it.y + 'px';
-    const itCx = it.x + 26;
-    if(it.y + 46 >= basketTop + 12 && it.y < area.clientHeight){
+    const itCx = it.x + 28;
+    if(it.y + 62 >= basketTop + 18 && it.y < area.clientHeight){
       if(Math.abs(itCx - catchState.basketX) < bHalf + 12){
         it.el.classList.add('pop');
         setTimeout(el => el.remove(), 350, it.el);
@@ -740,8 +762,7 @@ function tileClick(i){
 }
 
 /* ══════ GAME 3: chess — chiếu hết trong 1 nước ══════
-   Thế cờ Scholar's Mate: Trắng đi Qh5 → f7 là chiếu hết.
-   Quân trắng = mặt "her" 🐰, quân đen = mặt "him" 🐻          */
+   Thế cờ Scholar's Mate: Trắng đi Qh5 → f7 là chiếu hết. */
 const CHESS_FEN = 'r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR';
 const SYM = {k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
 let chessSel = null, chessTries = 0, chessDone = false;
@@ -772,8 +793,7 @@ function renderChess(){
       const isWhite = p === p.toUpperCase();
       const pc = document.createElement('div');
       pc.className = 'pc ' + (isWhite ? 'w' : 'b');
-      pc.style.backgroundImage = 'url(' + (isWhite ? IMG.her : IMG.him) + ')';
-      pc.innerHTML = '<span class="sym">' + SYM[p.toLowerCase()] + '</span>';
+      pc.textContent = SYM[p.toLowerCase()];
       sq.appendChild(pc);
     }
     sq.addEventListener('click', ()=> chessClick(r,c,sq));
