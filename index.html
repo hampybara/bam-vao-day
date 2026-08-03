@@ -20,7 +20,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Baloo+2:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;500;600;700&family=Baloo+2:wght@500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --pink:#ffd6e7;
@@ -191,11 +191,18 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
 
 /* ══════ 4. PHOTOS ══════ */
 .photo-stage{width:100%;max-width:380px}
-.photo-caption{font-family:'Pacifico',cursive;font-size:clamp(26px,7vw,34px);color:var(--text-dark);margin-bottom:18px;min-height:1.4em;animation:bounceIn .6s ease}
 .polaroid{
-  background:#fff;padding:14px 14px 44px;border-radius:6px;box-shadow:var(--shadow);
+  background:#fff;padding:14px 14px 18px;border-radius:6px;box-shadow:var(--shadow);
   transform:rotate(-2deg);transition:transform .3s;cursor:pointer;position:relative;
   animation:slideUp .5s ease;
+}
+.photo-caption{
+  font-family:'Montserrat',sans-serif;font-weight:800;
+  font-size:clamp(17px,4.8vw,21px);color:var(--text-dark);
+  margin-top:16px;min-height:2.5em;
+  display:flex;align-items:center;justify-content:center;
+  letter-spacing:.3px;line-height:1.25;
+  animation:bounceIn .6s ease;
 }
 @keyframes slideUp{from{transform:translateY(40px) rotate(-2deg);opacity:0}to{transform:translateY(0) rotate(-2deg);opacity:1}}
 .polaroid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;display:block}
@@ -357,10 +364,10 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
   <!-- 4. 5 ẢNH -->
   <section class="screen" id="s-photos">
     <div class="photo-stage">
-      <div class="photo-caption" id="photo-caption"></div>
       <div class="polaroid" id="polaroid" onclick="nextPhoto()">
         <div class="tape"></div>
         <img id="photo-img" alt="photo">
+        <div class="photo-caption" id="photo-caption"></div>
       </div>
       <div class="dots-nav" id="photo-dots"></div>
       <p class="hint">chạm hoặc vuốt để xem tiếp 💗</p>
@@ -564,7 +571,7 @@ function initPhotos(){
   showPhoto();
 }
 function showPhoto(){
-  document.getElementById('photo-caption').textContent = '♡ ' + CAPTIONS[photoIdx] + ' ♡';
+  document.getElementById('photo-caption').textContent = CAPTIONS[photoIdx];
   const img = document.getElementById('photo-img');
   img.src = IMG.photos[photoIdx];
   const pol = document.getElementById('polaroid');
