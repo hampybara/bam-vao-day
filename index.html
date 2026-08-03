@@ -13,7 +13,7 @@
   2. images.her    : ảnh mặt bạn (icon rơi trong game hứng) — vd 'her.jpg'
      images.him    : ảnh mặt bạn trai (giỏ hứng + quân cờ đen)
      images.couple : ảnh chung 2 người (dùng cho puzzle 3x3)
-     images.photos : 5 ảnh cho 5 lời khen
+     images.photos : 6 ảnh cho 6 lời khen
      → Đặt file ảnh cùng thư mục với index.html rồi điền tên file,
        hoặc để '' (rỗng) sẽ tự hiện ảnh placeholder dễ thương.
   ═══════════════════════════════════════════════════════════════
@@ -452,7 +452,7 @@ const CONFIG = {
     her:    '',   // ảnh mặt bạn (ôm trái tim, rơi trong game 1 + quân trắng cờ vua)
     him:    '',   // ảnh mặt bạn trai (giỏ hứng game 1 + quân đen cờ vua)
     couple: '',   // ảnh chung 2 người cho puzzle 3x3
-    photos: ['', '', '', '', ''],  // 5 ảnh cho 5 lời khen
+    photos: ['', '', '', '', '', ''],  // 6 ảnh cho 6 lời khen
   },
   catchTarget: 10, // số tim cần hứng để qua màn 1
 };
@@ -462,6 +462,7 @@ const CAPTIONS = [
   "you stay consistent",
   "you care about others' feelings",
   "you don't give up",
+  "you are my boy",
 ];
 
 /* ══════ placeholder generator (dùng khi chưa có ảnh thật) ══════ */
@@ -499,7 +500,7 @@ const IMG = {
   her:    CONFIG.images.her    || makePlaceholder('🐰','ảnh em nè', '#ffd6e7','#e3d5ff', 7),
   him:    CONFIG.images.him    || makePlaceholder('🐻','ảnh anh nè', '#cfe8ff','#e3d5ff', 13),
   couple: CONFIG.images.couple || makePlaceholder('🐻🐰','ảnh tụi mình','#ffd6e7','#cfe8ff', 21),
-  photos: CONFIG.images.photos.map((p,i)=> p || makePlaceholder(['😆','🧠','🌱','💞','🔥'][i], 'ảnh số '+(i+1), ['#ffd6e7','#cfe8ff','#e3d5ff','#ffe8cc','#d5f5e3'][i], '#fff8f0', 30+i*7)),
+  photos: CONFIG.images.photos.map((p,i)=> p || makePlaceholder(['😆','🧠','🌱','💞','🔥','🫶'][i], 'ảnh số '+(i+1), ['#ffd6e7','#cfe8ff','#e3d5ff','#ffe8cc','#d5f5e3','#ffd6e7'][i], '#fff8f0', 30+i*7)),
 };
 document.getElementById('github-link').href = CONFIG.githubUrl;
 
