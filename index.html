@@ -397,7 +397,7 @@ h1.script{font-family:'Pacifico',cursive;color:var(--text-dark);font-weight:400}
 
   <!-- 7. GAME 2: PUZZLE -->
   <section class="screen" id="s-game2">
-    <div class="game-title">Thử thách 2: Ghép hình tụi mình 🧩</div>
+    <div class="game-title">Thử thách 2: Puzzle 🧩</div>
     <div class="game-sub">chạm 2 mảnh để đổi chỗ cho nhau, ghép lại bức ảnh nha</div>
     <div style="height:14px"></div>
     <div id="puzzle-grid"></div>
@@ -766,7 +766,7 @@ function tileClick(i){
     if(pzTiles.every((v,idx)=> v === idx)){
       pzLock = true;
       tiles.forEach(t => t.classList.add('done-anim'));
-      toast('Ghép xong rồii, đúng là tụi mình 🥹💕');
+      toast('Ghép xong rồii, long iu đzai quá 🥹💕');
       burstConfetti(1500);
       setTimeout(()=> goTo('s-game3'), 1600);
     }
