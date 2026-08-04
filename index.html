@@ -805,7 +805,8 @@ function renderChess(){
       const isWhite = p === p.toUpperCase();
       const pc = document.createElement('div');
       pc.className = 'pc ' + (isWhite ? 'w' : 'b');
-      pc.textContent = SYM[p.toLowerCase()];
+      /* U+FE0E ép render dạng text (không bị iOS đổi thành emoji màu) */
+      pc.textContent = SYM[p.toLowerCase()] + String.fromCharCode(0xFE0E);
       sq.appendChild(pc);
     }
     sq.addEventListener('click', ()=> chessClick(r,c,sq));
